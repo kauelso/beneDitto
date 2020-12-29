@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import config from './config.json'
+import {prefix , token} from './config.json'
 
 // create a new Discord client
 const client = new Discord.Client();
@@ -12,12 +12,22 @@ client.once('ready',() => {
 });
 
 client.on('message', message => {
-	if (message.content === '!ping') {
-        // send back "Pong." to the channel the message was sent in
-        message.channel.send('Pong.');
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+    if (command === 'args-info') {
+        if (!args.length) {
+            return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+        }
+        else if (args[0] === 'foo') {
+            return message.channel.send('bar');
+        }
+    
+        message.channel.send(`First argument: ${args[0]}`);
     }
 });
 
 // login to Discord with your app's token
-client.login(config.token);
+client.login(token);
 

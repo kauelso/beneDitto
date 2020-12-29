@@ -1,0 +1,17 @@
+{
+  "name": "beneDittobot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "runbot": "ts-node-dev --respawn --transpile-only src/index.ts"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "eslint": "^7.16.0"
+  }
+}

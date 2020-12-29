@@ -1,7 +1,9 @@
 import Discord from 'discord.js'
+import config from './config.json'
 
 // create a new Discord client
 const client = new Discord.Client();
+
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
@@ -17,5 +19,5 @@ client.on('message', message => {
 });
 
 // login to Discord with your app's token
-client.login('NzkzNTI2NDQwMTU4NTYwMjc2.X-tjFg.hmX856C2urcj3jLddZSBBDN7-Wc');
+client.login(config.token);
 

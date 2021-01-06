@@ -1,0 +1,6 @@
+
+{
+	"_comment":"Change this file name to config.json and insert the token on token variable",
+	"prefix": "!",
+	"token": "token-here"
+}

@@ -1,9 +1,10 @@
 module.exports = {
 	name: 'ping',
 	guildOnly: 'true',
-	usage: '!ping',
+	usage: 'ping',
+	aliases: ['pg'],
+	description: 'Let\'s Ping, Pong!',
 	cooldown: 5,
-	description: 'Ping!',
 	execute(message, args) {
 		message.channel.send('Pong.');
 	},

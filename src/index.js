@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const {prefix, token} = require('./config.json')
+const {prefix, token, standardCd} = require('./config.json')
 const fs = require('fs');
 
 // create a new Discord client
@@ -30,10 +30,10 @@ client.on('message', message => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	//Command name
 	const commandName = args.shift().toLowerCase();
-	//Check if command name exists
-	if (!client.commands.has(commandName)) return;
 	//Get the command from the collection
-	const command = client.commands.get(commandName);
+	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	//Check if command exists
+	if (!command) return;
 	//Check if command is guildOnly
 	if (command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('I can\'t execute that command inside DMs!');
@@ -53,21 +53,21 @@ client.on('message', message => {
 		cooldowns.set(command.name, new Discord.Collection());
 	}
 	
-	const now = Date.now();
-	const timestamps = cooldowns.get(command.name);
-	const cooldownAmount = (command.cooldown || 10) * 1000;
-	console.log(timestamps)
+	const now = Date.now(); //Get the current time
+	const timestamps = cooldowns.get(command.name);//Get the collection of the command used
+	const cooldownAmount = (command.cooldown || standardCd) * 1000;//Get the cooldown of the command
 	
-	if (timestamps.has(message.author.id)) {
-		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+	if (timestamps.has(message.author.id)) {//Check if the message author is on cooldown
+		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;//Check the expiration time of the command
 
-		if (now < expirationTime) {
+		if (now < expirationTime) {//If its in cooldown yet then send the time left
 			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+			return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${prefix}${command.name}\` command again.`);
+		}
 	}
-		timestamps.set(message.author.id, now);
-		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-	}
+
+	timestamps.set(message.author.id, now);//Set author on the command collection
+	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);//Delete the author from collection when cooldown ends
 
 	//Execute command
 	try {

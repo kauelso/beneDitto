@@ -1,4 +1,3 @@
-const { visitLexicalEnvironment } = require('typescript');
 const { prefix, standardCd} = require('../config.json');
 
 module.exports = {
@@ -37,6 +36,7 @@ module.exports = {
         if (command.description) data.push(`**Description:** ${command.description}`);
         if (command.usage) data.push(`**Usage:** ${prefix}${command.usage}`);
         if (command.guildOnly) data.push(`**GuildOnly:** ${command.guildOnly}`);
+        if (command.permissions) data.push(`**Permissions:** ${command.permissions}`);
 
         data.push(`**Cooldown:** ${command.cooldown || standardCd} second(s)`);
 

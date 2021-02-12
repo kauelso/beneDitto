@@ -1,2 +1,2 @@
 # beneDitto
-Discord bot game based on Pokemon
+Discord bot game based on Pokemon, under development yet.

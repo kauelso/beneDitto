@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const {prefix, token, standardCd} = require('./config.json')
 const fs = require('fs');
-
+//comentario
 // create a new Discord client
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
